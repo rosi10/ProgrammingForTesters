@@ -9,6 +9,9 @@ import se.jensen.exercise.test.builder.EmployeeTestBuilder;
 import se.jensen.test.category.UnitTest;
 
 import java.math.BigDecimal;
+
+import static com.jayway.jsonpath.internal.path.PathCompiler.fail;
+
 @Category(UnitTest.class)
 public class EmployeeTest {
     @Test
@@ -38,20 +41,20 @@ public class EmployeeTest {
     @Test(expected = NullPointerException.class)
     public void testThatNullValueNotAllowedForEmployeeID() {
         Employee.builder()
-                .employeeId(EmployeeID.builder().id(1).build())
+                .employeeId(null)
                 .firstName("")
                 .lastName("")
                 .salary(null)
                 .fullTime(Boolean.TRUE)
                 .departmentId(1)
                 .build();
+        fail("Expected exception is not thrown");
     }
 
     @Test
     public void testThatToStringReturnsProper(){
         String expectedToString = EmployeeTestBuilder.build().toString();
         Employee employee = EmployeeTestBuilder.build();
-        System.out.println(employee);
         Assert.assertEquals(expectedToString,employee.toString());
     }
 }
