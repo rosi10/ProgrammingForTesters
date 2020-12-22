@@ -23,9 +23,7 @@ import java.util.Optional;
 @SpringBootTest(classes = {RestServiceApplication.class})
 
 public class DepartmentRestApiTestGetAll {
-
-
-
+    
     private static ConfigurableApplicationContext applicationContext;
 
     @SneakyThrows
