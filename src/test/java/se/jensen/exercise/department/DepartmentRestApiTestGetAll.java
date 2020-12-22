@@ -24,6 +24,8 @@ import java.util.Optional;
 
 public class DepartmentRestApiTestGetAll {
 
+
+
     private static ConfigurableApplicationContext applicationContext;
 
     @SneakyThrows
