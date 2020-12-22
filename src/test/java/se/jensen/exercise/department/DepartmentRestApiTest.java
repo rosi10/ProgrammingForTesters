@@ -36,6 +36,8 @@ import static org.junit.Assert.fail;
 
 public class DepartmentRestApiTest {
 
+
+
     private static ConfigurableApplicationContext applicationContext;
 
     @SneakyThrows
@@ -62,7 +64,7 @@ public class DepartmentRestApiTest {
         Optional <List <DepartmentModel>> department = DepartmentRestServiceClient.getAllDepartments();
         Assert.assertTrue(department.isPresent());
         Assert.assertEquals(3, department.get().stream().count());
-
+        System.out.println(department);
     }
 //-----------------------------------------------------------------------------------------
     @Test
