@@ -36,8 +36,6 @@ import static org.junit.Assert.fail;
 
 public class DepartmentRestApiTest {
 
-
-
     private static ConfigurableApplicationContext applicationContext;
 
     @SneakyThrows
