@@ -18,6 +18,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes ={Application.class, LiquibaseConfigurer.class, H2JpaConfig.class})
+
 public class DepartmentDaoTest {
     @Autowired
     private DepartmentDao departmentDao;
@@ -26,8 +27,35 @@ public class DepartmentDaoTest {
     public void testSaveNewDepartment(){
         Department department = DepartmentDatabaseEntryMapper.map(departmentDao.save(DepartmentDatabaseEntryMapper
                 .map(DepartmentTestBuilder.build())));
-        List<Department> departmentList = DepartmentDatabaseEntryMapper.map(departmentDao.findAll());
-        Assert.assertNotNull(departmentList);
+        Assert.assertNotNull(department);
+    }
+
+    @Test
+    public void testFindAllDepartments(){
+        List<Department> departments = DepartmentDatabaseEntryMapper.map(departmentDao.findAll());
+        Assert.assertNotNull(departments);
+    }
+    @Test
+    public void testFindDepartmentById(){
+        Integer department_Id = Integer.valueOf(1);
+       Department department  = DepartmentDatabaseEntryMapper.map(departmentDao.findById(department_Id).get());
+       Assert.assertNotNull(department);
+       Assert.assertEquals(department_Id,department.getDepartmentId());
+    }
+    @Test
+    public void testDeleteDepartment(){
+        Department department = DepartmentDatabaseEntryMapper.map(departmentDao.save(DepartmentDatabaseEntryMapper
+                .map(Department.builder()
+                        .departmentId(4)
+                        .departmentName("toDelete")
+                        .build())));
+        Assert.assertNotNull(department);
+       List<Department> departmentList = DepartmentDatabaseEntryMapper.map(departmentDao.findAll());
+       Assert.assertEquals(4,departmentList.size());
+        departmentDao.delete(DepartmentDatabaseEntryMapper.map(department));
+        List<Department> departments = DepartmentDatabaseEntryMapper.map(departmentDao.findAll());
+        Assert.assertEquals(3,departments.size());
+
     }
 
 
