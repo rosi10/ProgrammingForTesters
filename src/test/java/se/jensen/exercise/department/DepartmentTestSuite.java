@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
         TestDepartmentModelsMapper.class,
         TestThatNullPointerExceptionIsThrown.class,
         TestThatDepartmentIsStoredInDatabase.class,
-        TestDepartmentService.class
+        TestDepartmentService.class,
+        DepartmentDaoTest.class
 })
 public class DepartmentTestSuite {
 }
