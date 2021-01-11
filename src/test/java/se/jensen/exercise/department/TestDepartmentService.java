@@ -39,6 +39,14 @@ public class TestDepartmentService {
         list.add(departmentDatabaseEntry);
 
         when(departmentDao.findAll()).thenReturn(list);
+        when(departmentDao.findById(any())).thenReturn((Optional.of(DepartmentDatabaseEntry.builder()
+                .departmentId(DEPARTMENTID)
+                .departmentName(DEPARTMENTNAME)
+                .build())));
+        when(departmentDao.save(any())).thenReturn(DepartmentDatabaseEntry.builder()
+                .departmentId(DEPARTMENTID)
+                .departmentName(DEPARTMENTNAME)
+                .build());
 
     }
     @Test
@@ -67,4 +75,61 @@ public class TestDepartmentService {
         Assert.assertEquals(DEPARTMENTNAME, department.getDepartmentName());
         Assert.assertEquals(DEPARTMENTID, department.getDepartmentId());
     }
+    @Test
+    public void testCreate(){
+        when(departmentDao.findById(any()))
+                .thenReturn(Optional.empty())
+                .thenReturn(Optional.of(DepartmentDatabaseEntry.builder()
+                        .departmentId(DEPARTMENTID)
+                        .departmentName(DEPARTMENTNAME)
+                        .build()));
+
+        Department department = Department.builder()
+                .departmentId(DEPARTMENTID)
+                .departmentName(DEPARTMENTNAME)
+                .build();
+
+        Department createDepartment = service.create(department);
+        Assert.assertNotNull(createDepartment);
+        verify(departmentDao, times(1)).save(any());
+        Department savedDepartment = service.getDepartmentById(DEPARTMENTID);
+
+        Assert.assertNotNull(savedDepartment);
+        Assert.assertEquals(DEPARTMENTID, savedDepartment.getDepartmentId());
+        Assert.assertEquals(DEPARTMENTNAME, savedDepartment.getDepartmentName());
+        System.out.println(savedDepartment.getDepartmentId());
+    }
+    @Test
+    public void testDelete(){
+        Department department = Department.builder()
+                .departmentId(3)
+                .departmentName(DEPARTMENTNAME)
+                .build();
+        System.out.println(department.getDepartmentId());
+        Department departmentDelete = service.remove(department);
+        verify(departmentDao,times(1)).delete(any());
+        //Department deleteDepartment = service.getDepartmentById(DEPARTMENTID);
+
+        //when(departmentDao.existsById(departmentId)).thenReturn(false);
+        // DepartmentDatabaseEntry departmentDatabaseEntrydelete = departmentDao.delete(DepartmentDatabaseEntry);
+//Assert.assertNull(departmentDelete);
+        System.out.println(DEPARTMENTID);
+        System.out.println(departmentDelete.getDepartmentId());
+//Assert.assertNull(department.getDepartmentId());
+        System.out.println(department.getDepartmentId());
+    }
+    @Test
+    public void testUpdate(){
+        Department department = Department.builder()
+                .departmentId(DEPARTMENTID)
+                .departmentName(DEPARTMENTNAME)
+                .build();
+        Department departmentUpdate = service.update(department);
+        verify(departmentDao,times(1)).save(any());
+        Assert.assertNotNull(departmentUpdate);
+        Assert.assertEquals(DEPARTMENTID, departmentUpdate.getDepartmentId());
+        Assert.assertEquals(DEPARTMENTNAME, departmentUpdate.getDepartmentName());
+        System.out.println("Departments =:"+departmentUpdate.getDepartmentId());
+    }
 }
+
