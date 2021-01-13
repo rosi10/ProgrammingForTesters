@@ -6,24 +6,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import se.jensen.H2JpaConfig;
 import se.jensen.LiquibaseConfigurer;
 import se.jensen.dao.EmployeeDao;
 import se.jensen.dao.EmployeeDatabaseEntry;
-import se.jensen.dao.mapper.EmployeePojoMapper;
-import se.jensen.entity.Employee;
-import se.jensen.exercise.test.builder.EmployeeTestBuilder;
+import se.jensen.entity.EmployeeID;
 
-import javax.ws.rs.core.Application;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {Application.class, LiquibaseConfigurer.class, H2JpaConfig.class})
+@ContextConfiguration(classes={LiquibaseConfigurer.class, H2JpaConfig.class})
 public class EmployeeDaoTest {
 
     @Autowired
@@ -52,16 +52,16 @@ public class EmployeeDaoTest {
 
     @Test
     public void testGetAll() {
-        List<EmployeeDatabaseEntry> employees = employeeDao.findAll();
-        Assert.assertEquals(2,employees.size());
-        employees.stream().forEach(System.out::println);
+        Object employees = employeeDao.findAll();
+        Assert.assertEquals(2, ((List)employees).size());
     }
 
     @Test
     public void testSaveNewEmployee() {
         List<EmployeeDatabaseEntry> employees = employeeDao.findAll();
-        Assert.assertEquals(2,employees.size());
-        employeeDao.saveAndFlush(EmployeeDatabaseEntry.builder()
+        Assert.assertEquals(2, employees.size());
+        employeeDao.saveAndFlush(
+                EmployeeDatabaseEntry.builder()
                 .departmentId(1)
                 .employeeId(15)
                 .firstName("Test15")
@@ -70,7 +70,7 @@ public class EmployeeDaoTest {
                 .fullTime(true)
                 .build());
         employees = employeeDao.findAll();
-        Assert.assertEquals(3,employees.size());
+        Assert.assertEquals(3, employees.size());
     }
 
     @Test
@@ -84,8 +84,9 @@ public class EmployeeDaoTest {
                 .fullTime(true)
                 .build());
         List<EmployeeDatabaseEntry> employees = employeeDao.findAll();
-        Assert.assertEquals(1,employees.size());
+        Assert.assertEquals(1, employees.size());
     }
+
     @Test
     public void testGetById() {
         Optional<EmployeeDatabaseEntry> employeeDatabaseEntry = employeeDao.findById(1);
