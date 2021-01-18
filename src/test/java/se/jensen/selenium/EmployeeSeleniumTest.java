@@ -45,9 +45,9 @@ public class EmployeeSeleniumTest {
         app.setBannerMode(Banner.Mode.CONSOLE);
         app.setLogStartupInfo(false);
         applicationContext = app.run(args);
-        String driverPath = "/Users/jocke/chromedriver";
+        String driverPath = "C:\\Users\\Kashifa\\Desktop\\chrome_driver_selenium\\chromedriver_win32";
         System.out.println(driverPath);
-        System.setProperty("webdriver.chrome.driver", driverPath);
+        System.setProperty("webdriver.chrome.driver","C:\\Users\\Kashifa\\Desktop\\chrome_driver_selenium\\chromedriver_win32.exe" );
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
         driver.manage().window().setPosition(new Point(220, 10));
