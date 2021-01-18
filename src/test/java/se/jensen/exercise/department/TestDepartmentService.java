@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Category(UnitTest.class)
-
 public class TestDepartmentService {
 
     DepartmentDao departmentDao = mock(DepartmentDao.class);
